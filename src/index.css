@@ -1,0 +1,125 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+  font-family: 'Rubik', sans-serif;
+}
+
+.title {
+  margin-top: 3%;
+  padding-top: 5px;
+}
+
+.main {
+  margin: 0 auto;
+  text-align: center;
+  width: 50%;
+}
+
+.form_part {
+  margin-top: 2%;
+  text-align: center;
+}
+
+.search_bar {
+  box-shadow: 0;
+  width: 100%;
+  height: 40px;
+  border-radius: 5px;
+  border: 1px solid black;
+}
+
+.filter {
+  border: 1px solid black;
+  width: 100%;
+  height: 40px;
+  border-radius: 20px;
+}
+
+.org_card {
+  width: 320px;
+  height: 320px;
+  border: 1px solid black;
+  display: inline-block;
+  position: relative;
+  margin: 1em;
+  border-radius: 5px;
+  box-shadow: 0px 17px 10px -10px rgba(0,0,0,0.4);
+  transition: all 0.5s;
+}
+
+.org_card:hover {
+  cursor: pointer;
+  background-color: rgb(0, 0, 0, 0.05);
+  transform: translateY(-10px);
+  box-shadow: 0px 37px 20px -15px rgba(0,0,0,0.2);
+}
+
+.filtered {
+  margin-top: 5%;
+  margin-left: 5%;
+}
+
+.year_cont {
+  float: right;
+  font-weight: 700;
+}
+
+.content {
+  padding: 1em;
+  padding-top: 1em;
+}
+
+.name {
+  font-size: 22px;
+  font-weight: bold;
+}
+
+.desp {
+  font-size: 16px;
+  font-weight: 400;
+  letter-spacing: 1px;
+}
+
+.tech_box {
+  width: auto;
+  height: 25px;
+  background-color: rgba(0, 0, 0, 0.15);
+  color: black;
+  font-size: 12.5px;
+  font-weight: 600;
+  text-transform: uppercase;
+  margin: 0.5em;
+  padding: 0.2em;
+  text-align: center;
+  display: inline-block;
+  position: relative;
+}
+
+.techs {
+  display: inline-block;
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.selections {
+  margin-top: 1em;
+}
+
+.selects {
+  font-size: 25px;
+  color: black;
+  font-weight: 700;
+  padding-top: -1em;
+}
+
+.org_link {
+  text-decoration: none;
+  color: black;
+}
+
+.org_link:hover {
+  text-decoration: none;
+  color: black;
+}
