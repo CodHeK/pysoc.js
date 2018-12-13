@@ -46,11 +46,11 @@ class App extends Component {
     let filtered = [];
     for(let org of orgs_data) {
       for(let tech of org.org_tech_list) {
-        if(tech.toLowerCase() == keyword) {
+        if(tech.toLowerCase() == keyword.toLowerCase()) {
           filtered.push(org);
         }
       }
-      if(String(org.org_name).match(keyword) || String(org.year).match(keyword)) {
+      if(String(org.org_name.toLowerCase()).match(keyword.toLowerCase()) || String(org.year).match(keyword)) {
         filtered.push(org);
       }
     }
