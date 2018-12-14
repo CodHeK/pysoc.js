@@ -42,18 +42,41 @@ class App extends Component {
     this.setState({ orgs_data: temp, loaded: true, filtered: temp });
   }
 
+  check(org, keyword) {
+    var f1 = 0, f2 = 0;
+    for(let tech of org.org_tech_list) {
+      if(tech.toLowerCase() == keyword.toLowerCase()) {
+        f1 = 1;
+        break;
+      }
+    }
+    if(String(org.org_name.toLowerCase()).match(keyword.toLowerCase()) || String(org.year).match(keyword)) {
+      f2 = 1;
+    }
+    if(f1 == 1 || f2 == 1)
+      return true;
+    return false;
+  }
+
   keyword(e) {
     let { orgs_data } = this.state;
-    var keyword = e.target.value;
+    var keywords = e.target.value;
+    keywords = keywords.split(",");
     let filtered = [];
-    if(keyword != "") {
+    if(keywords.length != 0) {
+      console.log(keywords.length);
       for(let org of orgs_data) {
-        for(let tech of org.org_tech_list) {
-          if(tech.toLowerCase() == keyword.toLowerCase()) {
-            filtered.push(org);
+        let flag = 1;
+        for(let keyword of keywords) {
+          if(this.check(org, keyword) === true) {
+            continue;
+          }
+          else {
+            flag = 0;
+            break;
           }
         }
-        if(String(org.org_name.toLowerCase()).match(keyword.toLowerCase()) || String(org.year).match(keyword)) {
+        if(flag === 1) {
           filtered.push(org);
         }
       }
@@ -98,7 +121,8 @@ class App extends Component {
               <h3 className="title">PYSOC.JS</h3>
             </div>
             <div className="col-md-7">
-              <input placeholder="Search for any keyword ( org_name / year / technology )" className="search_bar form-control" onChange={this.keyword.bind(this)}/>
+              <input placeholder="Search : ( org_name / year / technology )" className="search_bar form-control" onChange={this.keyword.bind(this)}/>
+              <span className="note"><i>* more than one search params must me comma separated</i></span>
             </div>
             <div className="col-md-2">
               <div className="btn-group">
@@ -114,6 +138,7 @@ class App extends Component {
           </div>
         </div>
         <div className="filtered">
+          <h4 className="num"><b>{filtered_orgs.length}</b> results fetched</h4>
           {filtered_orgs}
         </div>
       </div>

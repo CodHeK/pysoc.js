@@ -5,6 +5,12 @@ body {
   font-family: 'Rubik', sans-serif;
 }
 
+.note {
+  font-size: 10px;
+  color: black;
+  font-weight: 400;
+}
+
 .title {
   margin-top: 3%;
   padding-top: 5px;
@@ -19,6 +25,10 @@ body {
 .form_part {
   margin-top: 2%;
   text-align: center;
+}
+
+.num {
+  margin-left: 1em;
 }
 
 .item {
