@@ -45,9 +45,12 @@ class App extends Component {
   check(org, keyword) {
     var f1 = 0, f2 = 0;
     for(let tech of org.org_tech_list) {
-      if(tech.toLowerCase() == keyword.toLowerCase()) {
-        f1 = 1;
-        break;
+      tech = tech.split("/");
+      for(let t of tech) {
+        if(t.toLowerCase() == keyword.toLowerCase()) {
+          f1 = 1;
+          break;
+        }
       }
     }
     if(String(org.org_name.toLowerCase()).match(keyword.toLowerCase()) || String(org.year).match(keyword)) {
