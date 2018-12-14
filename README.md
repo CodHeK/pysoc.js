@@ -6,6 +6,10 @@ Use `FILTERS` to Sort and Analyse the Data, lets you sort data based on the `num
 
 Perform Complex Search Queries, by adding multiple search parameters.
 
+Added Fuzzy Logic to search, incase search parameters dont match!
+
 Try it out here: [https://pysocjs.herokuapp.com/](https://pysocjs.herokuapp.com/)
 
 ![ss](ss.png)
+#
+![ss1](ss1.png)

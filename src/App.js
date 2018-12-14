@@ -5,6 +5,7 @@ import 'firebase/database';
 import gsoc_logo from './imgs/gsoc.png';
 import OrgCard from './OrgCard';
 import Loader from 'react-loader';
+import Fuse from 'fuse.js';
 
 var Spinner = require('react-spinkit');
 
@@ -14,10 +15,11 @@ class App extends Component {
     this.app = firebase.initializeApp(DB_CONFIG);
     this.database = this.app.database().ref().child('orgs');
     this.state = {
-      keyword: [],
+      keyword: '',
       orgs_data: [],
       filtered: [],
       loaded: false,
+      match: [],
     }
   }
 
@@ -39,7 +41,8 @@ class App extends Component {
       }
       temp.push(data);
     })
-    this.setState({ orgs_data: temp, loaded: true, filtered: temp });
+
+    this.setState({ orgs_data: temp, loaded: true, filtered: temp, });
   }
 
   check(org, keyword) {
@@ -61,10 +64,30 @@ class App extends Component {
     return false;
   }
 
+  calc_corr(keyword) {
+    let { orgs_data } = this.state;
+    var options = {
+      shouldSort: true,
+      threshold: 0.6,
+      location: 0,
+      distance: 100,
+      maxPatternLength: 32,
+      minMatchCharLength: 1,
+      keys: [
+        "org_name",
+        "year"
+      ]
+    };
+    var fuse = new Fuse(orgs_data, options);
+    return fuse.search(keyword);
+  }
+
   keyword(e) {
     let { orgs_data } = this.state;
     var keywords = e.target.value;
     keywords = keywords.split(",");
+    var best_match = this.calc_corr(keywords[0]);
+    console.log(best_match);
     let filtered = [];
     if(keywords.length != 0) {
       for(let org of orgs_data) {
@@ -86,7 +109,13 @@ class App extends Component {
     else {
       filtered = orgs_data;
     }
-    this.setState({ keyword: e.target.value, filtered: filtered })
+    if(filtered.length === 0) {
+      var match = [];
+      match.push(best_match[0]);
+      match.push(best_match[1]);
+      console.log(match);
+    }
+    this.setState({ keyword: e.target.value, filtered: filtered, match, })
   }
 
   filter(option, e) {
@@ -106,13 +135,19 @@ class App extends Component {
   }
 
   render() {
-    let { filtered, loaded } = this.state;
+    let { filtered, loaded, keyword, match } = this.state;
     let filtered_orgs;
     if(loaded === true) {
         filtered_orgs = filtered.map(org => <OrgCard org={org} />);
     }
     else {
         filtered_orgs = <Spinner name='double-bounce' />;
+    }
+    if(filtered.length > 0) {
+      var result = <h4 className="num"><b style={{ letterSpacing: '0.5px' }}>{filtered_orgs.length}</b> results fetched ...</h4>;
+    }
+    else if(filtered.length == 0 && keyword.length > 0) {
+      var result = <h4 className="num"><b style={{ letterSpacing: '0.5px' }}>Uh oh!</b>, couldnt find any results ! <br/> Did you mean: <b>{match[0].org_name}</b> or <b>{match[1].org_name}</b> </h4>;
     }
     return (
       <div className="container">
@@ -139,7 +174,7 @@ class App extends Component {
           </div>
         </div>
         <div className="filtered">
-          <h4 className="num"><b style={{ letterSpacing: '0.5px' }}>{filtered_orgs.length}</b> results fetched ...</h4>
+          {result}
           {filtered_orgs}
         </div>
       </div>
