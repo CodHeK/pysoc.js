@@ -14,7 +14,7 @@ class App extends Component {
     this.app = firebase.initializeApp(DB_CONFIG);
     this.database = this.app.database().ref().child('orgs');
     this.state = {
-      keyword: '',
+      keyword: [],
       orgs_data: [],
       filtered: [],
       loaded: false,
@@ -64,7 +64,6 @@ class App extends Component {
     keywords = keywords.split(",");
     let filtered = [];
     if(keywords.length != 0) {
-      console.log(keywords);
       for(let org of orgs_data) {
         let flag = 1;
         for(let keyword of keywords) {
@@ -88,7 +87,7 @@ class App extends Component {
   }
 
   filter(option, e) {
-    let orgs_data = this.state.orgs_data;
+    let orgs_data = this.state.filtered;
     if(option == 1) {
       orgs_data.sort((a, b) => {
         return (b.org_selections-a.org_selections);
@@ -102,7 +101,6 @@ class App extends Component {
       this.setState({ filtered: orgs_data });
     }
   }
-
 
   render() {
     let { filtered, loaded } = this.state;
@@ -120,8 +118,8 @@ class App extends Component {
             <div className="col-md-3">
               <h3 className="title">PYSOC.JS</h3>
             </div>
-            <div className="col-md-7">
-              <input placeholder="Search : ( org_name / year / technology )" className="search_bar form-control" onChange={this.keyword.bind(this)}/>
+            <div className="col-md-7" id="input-wrapper">
+              <input placeholder="Search : ( org_name / year / technology )" id="user-input" className="search_bar form-control" onChange={this.keyword.bind(this)} />
               <span className="note"><i>* more than one search params must me comma separated</i></span>
             </div>
             <div className="col-md-2">
