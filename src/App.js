@@ -123,7 +123,7 @@ class App extends Component {
             </div>
             <div className="col-md-7" id="input-wrapper">
               <input placeholder="Search : ( org_name / year / technology )" id="user-input" className="search_bar form-control" onChange={this.keyword.bind(this)} />
-              <span className="note"><i>* more than one search params must me comma separated</i></span>
+              <span className="note"><i>* more than one search params must be comma separated</i></span>
             </div>
             <div className="col-md-2">
               <div className="btn-group">
@@ -139,7 +139,7 @@ class App extends Component {
           </div>
         </div>
         <div className="filtered">
-          <h4 className="num"><b>{filtered_orgs.length}</b> results fetched</h4>
+          <h4 className="num"><b>{filtered_orgs.length}</b> results fetched ...</h4>
           {filtered_orgs}
         </div>
       </div>
