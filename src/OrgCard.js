@@ -23,7 +23,7 @@ class OrgCard extends Component {
             <div className="selections">
               <div className="row">
                 <div className="col-md-9">
-                  <h4 className="title">SELECTIONS</h4>
+                  <h4 className="title" style={{ paddingTop: '0.5em' }}>SELECTIONS</h4>
                 </div>
                 <div className="col-md-3">
                   <h4 className="selects">{org.org_selections}</h4>

@@ -107,10 +107,11 @@ body {
   font-weight: 600;
   text-transform: uppercase;
   margin: 0.5em;
-  padding: 0.2em;
+  padding: 0.4em;
   text-align: center;
   display: inline-block;
   position: relative;
+  border-radius: 5px;
 }
 
 .techs {

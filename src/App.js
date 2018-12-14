@@ -139,7 +139,7 @@ class App extends Component {
           </div>
         </div>
         <div className="filtered">
-          <h4 className="num"><b>{filtered_orgs.length}</b> results fetched ...</h4>
+          <h4 className="num"><b style={{ letterSpacing: '0.5px' }}>{filtered_orgs.length}</b> results fetched ...</h4>
           {filtered_orgs}
         </div>
       </div>
