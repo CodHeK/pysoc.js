@@ -6,6 +6,8 @@ import gsoc_logo from './imgs/gsoc.png';
 import OrgCard from './OrgCard';
 import Loader from 'react-loader';
 
+var Spinner = require('react-spinkit');
+
 class App extends Component {
   constructor(props) {
     super(props);
@@ -19,7 +21,7 @@ class App extends Component {
     }
   }
 
-  componentDidMount() {
+  componentWillMount() {
     let { orgs_data } = this.state;
     let temp = [];
     this.database.on('child_added', snap => {
@@ -37,7 +39,7 @@ class App extends Component {
       }
       temp.push(data);
     })
-    this.setState({ orgs_data: temp, loaded: true });
+    this.setState({ orgs_data: temp, loaded: true, filtered: temp });
   }
 
   keyword(e) {
@@ -80,8 +82,14 @@ class App extends Component {
 
 
   render() {
-    let { filtered } = this.state;
-    const filtered_orgs = filtered.map(org => <OrgCard org={org} />)
+    let { filtered, loaded } = this.state;
+    let filtered_orgs;
+    if(loaded === true) {
+        filtered_orgs = filtered.map(org => <OrgCard org={org} />);
+    }
+    else {
+        filtered_orgs = <Spinner name='double-bounce' />;
+    }
     return (
       <div className="container">
         <div className="main">
@@ -105,11 +113,9 @@ class App extends Component {
             </div>
           </div>
         </div>
-        <Loader loaded={this.state.loaded}>
-          <div className="filtered">
-            {filtered_orgs}
-          </div>
-        </Loader>
+        <div className="filtered">
+          {filtered_orgs}
+        </div>
       </div>
     );
   }

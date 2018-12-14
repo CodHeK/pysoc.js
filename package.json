@@ -16,6 +16,7 @@
     "react-loader": "^2.4.5",
     "react-router-dom": "^4.3.1",
     "react-scripts": "1.1.1",
+    "react-spinkit": "^3.0.0",
     "request": "latest"
   },
   "scripts": {
