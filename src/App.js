@@ -23,7 +23,8 @@ class App extends Component {
     }
   }
 
-  componentWillMount() {
+
+  componentDidMount() {
     let { orgs_data } = this.state;
     let temp = [];
     this.database.on('child_added', snap => {
@@ -41,9 +42,11 @@ class App extends Component {
       }
       temp.push(data);
     })
-
-    this.setState({ orgs_data: temp, loaded: true, filtered: temp, });
+    setTimeout(() => {
+      this.setState({ orgs_data: temp, loaded: true, filtered: temp, });
+    }, 2000);
   }
+
 
   check(org, keyword) {
     var f1 = 0, f2 = 0;
@@ -134,20 +137,64 @@ class App extends Component {
     }
   }
 
+  searchAgain(param) {
+    let { orgs_data } = this.state;
+    var keywords = param;
+    keywords = keywords.split(",");
+    var best_match = this.calc_corr(keywords[0]);
+    console.log(best_match);
+    let filtered = [];
+    if(keywords.length != 0) {
+      for(let org of orgs_data) {
+        let flag = 1;
+        for(let keyword of keywords) {
+          if(this.check(org, keyword.trim()) === true) {
+            continue;
+          }
+          else {
+            flag = 0;
+            break;
+          }
+        }
+        if(flag === 1) {
+          filtered.push(org);
+        }
+      }
+    }
+    else {
+      filtered = orgs_data;
+    }
+    if(filtered.length === 0) {
+      var match = [];
+      match.push(best_match[0]);
+      match.push(best_match[1]);
+      console.log(match);
+    }
+    this.setState({ keyword: param, filtered: filtered, match, })
+  }
+
+  search(name, e) {
+    console.log(name);
+    var inputVal = document.getElementById("user-input");
+    inputVal.value = name;
+    this.searchAgain(name);
+  }
+
   render() {
     let { filtered, loaded, keyword, match } = this.state;
     let filtered_orgs;
-    if(loaded === true) {
+    console.log(loaded);
+    if(loaded == true) {
         filtered_orgs = filtered.map(org => <OrgCard org={org} />);
     }
     else {
-        filtered_orgs = <Spinner name='double-bounce' />;
+        filtered_orgs = <h4 className="num"><b style={{ letterSpacing: '0.5px' }}>Loading Scraped Data ...</b></h4>;
     }
     if(filtered.length > 0) {
       var result = <h4 className="num"><b style={{ letterSpacing: '0.5px' }}>{filtered_orgs.length}</b> results fetched ...</h4>;
     }
     else if(filtered.length == 0 && keyword.length > 0) {
-      var result = <h4 className="num"><b style={{ letterSpacing: '0.5px' }}>Uh oh!</b>, couldnt find any results ! <br/> Did you mean: <b>{match[0].org_name}</b> or <b>{match[1].org_name}</b> </h4>;
+      var result = <h4 className="num"><b style={{ letterSpacing: '0.5px' }}>Uh oh!</b>, couldnt find any results ! <hr/> Did you mean:&nbsp;&nbsp; <b><a className="sugg" onClick={this.search.bind(this, match[0].org_name)}>{match[0].org_name}</a></b> or <b><a className="sugg" onClick={this.search.bind(this, match[1].org_name)}>{match[1].org_name}</a></b> </h4>;
     }
     return (
       <div className="container">

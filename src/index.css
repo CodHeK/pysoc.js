@@ -141,3 +141,7 @@ body {
   text-decoration: none;
   color: black;
 }
+
+.sugg {
+  cursor: pointer;
+}
