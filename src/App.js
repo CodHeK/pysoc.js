@@ -64,11 +64,11 @@ class App extends Component {
     keywords = keywords.split(",");
     let filtered = [];
     if(keywords.length != 0) {
-      console.log(keywords.length);
+      console.log(keywords);
       for(let org of orgs_data) {
         let flag = 1;
         for(let keyword of keywords) {
-          if(this.check(org, keyword) === true) {
+          if(this.check(org, keyword.trim()) === true) {
             continue;
           }
           else {
