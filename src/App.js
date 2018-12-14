@@ -44,17 +44,38 @@ class App extends Component {
     let { orgs_data } = this.state;
     var keyword = e.target.value;
     let filtered = [];
-    for(let org of orgs_data) {
-      for(let tech of org.org_tech_list) {
-        if(tech.toLowerCase() == keyword.toLowerCase()) {
+    if(keyword != "") {
+      for(let org of orgs_data) {
+        for(let tech of org.org_tech_list) {
+          if(tech.toLowerCase() == keyword.toLowerCase()) {
+            filtered.push(org);
+          }
+        }
+        if(String(org.org_name.toLowerCase()).match(keyword.toLowerCase()) || String(org.year).match(keyword)) {
           filtered.push(org);
         }
       }
-      if(String(org.org_name.toLowerCase()).match(keyword.toLowerCase()) || String(org.year).match(keyword)) {
-        filtered.push(org);
-      }
+    }
+    else {
+      filtered = orgs_data;
     }
     this.setState({ keyword: e.target.value, filtered: filtered })
+  }
+
+  filter(option, e) {
+    let orgs_data = this.state.orgs_data;
+    if(option == 1) {
+      orgs_data.sort((a, b) => {
+        return (b.org_selections-a.org_selections);
+      });
+      this.setState({ filtered: orgs_data });
+    }
+    else if(option == 2) {
+      orgs_data.sort((a, b) => {
+        return (a.org_selections-b.org_selections);
+      });
+      this.setState({ filtered: orgs_data });
+    }
   }
 
 
@@ -68,8 +89,19 @@ class App extends Component {
             <div className="col-md-3">
               <h3 className="title">PYSOC.JS</h3>
             </div>
-            <div className="col-md-9">
+            <div className="col-md-7">
               <input placeholder="Search for any keyword ( org_name / year / technology )" className="search_bar form-control" onChange={this.keyword.bind(this)}/>
+            </div>
+            <div className="col-md-2">
+              <div className="btn-group">
+                <button type="button" className="btn btn-default dropdown-toggle filter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  FILTER &nbsp;&nbsp;<span className="caret"></span>
+                </button>
+                <ul className="dropdown-menu">
+                  <li><a href="#" className="item" onClick={this.filter.bind(this, 1)}>highest selections</a></li>
+                  <li><a href="#" className="item" onClick={this.filter.bind(this, 2)}>lowest selections</a></li>
+                </ul>
+              </div>
             </div>
           </div>
         </div>

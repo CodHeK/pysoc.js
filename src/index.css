@@ -21,6 +21,11 @@ body {
   text-align: center;
 }
 
+.item {
+  font-size: 13px;
+  text-transform: uppercase;
+}
+
 .search_bar {
   box-shadow: 0;
   width: 100%;
@@ -31,9 +36,9 @@ body {
 
 .filter {
   border: 1px solid black;
-  width: 100%;
+  width: 120px;
   height: 40px;
-  border-radius: 20px;
+  border-radius: 5px;
 }
 
 .org_card {
@@ -104,7 +109,7 @@ body {
 }
 
 .selections {
-  margin-top: 1em;
+  margin-top: 0.5em;
 }
 
 .selects {
