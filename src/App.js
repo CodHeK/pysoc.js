@@ -45,10 +45,10 @@ class App extends Component {
     })
     setTimeout(() => {
       this.setState({ orgs_data: temp, loaded: true, filtered: temp, });
-    }, 2000);
+    }, 3000);
     setTimeout(() => {
       $(".main").fadeIn(1000);
-    }, 2500);
+    }, 3500);
   }
 
 
