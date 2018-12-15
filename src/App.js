@@ -18,16 +18,18 @@ class App extends Component {
     this.state = {
       keyword: '',
       orgs_data: [],
+      orgs_data_copy: [],
       filtered: [],
       loaded: false,
       match: [],
+      map: null,
     }
   }
 
-
   componentDidMount() {
     let { orgs_data } = this.state;
-    let temp = [];
+    let temp = [], temp_copy = [];
+    var map = new Map();
     this.database.on('child_added', snap => {
       let data = {
         id: snap.key,
@@ -37,14 +39,40 @@ class App extends Component {
         org_link: snap.val().org_link,
         org_tech_list: snap.val().org_tech_list,
         org_selections: snap.val().org_selections
-      }
+      };
       if(data.org_name.indexOf("AOSSIE") != -1) {
         data.org_name = "AOSSIE";
       }
+      let data_copy = {
+        id: snap.key,
+        year: snap.val().year,
+        org_name: snap.val().org_name,
+        org_def: snap.val().org_def,
+        org_link: snap.val().org_link,
+        org_tech_list: snap.val().org_tech_list,
+        org_selections: snap.val().org_selections
+      };
+      if(map.has(data_copy.org_name)) {
+        var obj = map.get(data_copy.org_name);
+        var year_list = obj.year;
+        obj.total_selections += data_copy.org_selections;
+        year_list.push(data_copy.year);
+      }
+      else {
+        var obj = {
+          org_info: data_copy,
+          year: [],
+          total_selections: 0,
+        }
+        obj.year.push(data_copy.year);
+        obj.total_selections += data_copy.org_selections;
+        map.set(data_copy.org_name, obj);
+      }
       temp.push(data);
-    })
+      temp_copy.push(data_copy);
+    });
     setTimeout(() => {
-      this.setState({ orgs_data: temp, loaded: true, filtered: temp, });
+      this.setState({ orgs_data: temp, loaded: true, filtered: temp,  map, orgs_data_copy: temp_copy });
     }, 3000);
     setTimeout(() => {
       $(".main").fadeIn(1000);
@@ -139,10 +167,41 @@ class App extends Component {
       });
       this.setState({ filtered: orgs_data });
     }
+    else if(option == 3) {
+      this.searchAgain("2018", "on_filtered");
+    }
+    else if(option == 4) {
+      this.searchAgain("2017", "on_filtered");
+    }
+    else if(option == 5) {
+      this.searchAgain("2016", "on_filtered");
+    }
+    else if(option == 6) {
+      let { map } = this.state;
+      let filtered = [];
+      map.forEach(function(value, key, map) {
+        var years = value.year;
+        value.org_info.org_tech_list = years;
+        value.org_info.year = "";
+        value.org_info.org_selections = value.total_selections;
+        filtered.push(value.org_info);
+      });
+      this.setState({ filtered, });
+    }
+    else if(option == 7) {
+      this.searchAgain("all", "on_total");
+    }
   }
 
-  searchAgain(param) {
-    let { orgs_data } = this.state;
+  searchAgain(param, data) {
+    let { orgs_data, orgs_data_copy } = this.state;
+    if(data == "on_filtered")
+      orgs_data = this.state.filtered;
+    if(param == "all" && data == "on_total") {
+      console.log(orgs_data);
+      this.setState({ filtered: orgs_data });
+      return;
+    }
     var keywords = param;
     keywords = keywords.split(",");
     var best_match = this.calc_corr(keywords[0]);
@@ -181,7 +240,7 @@ class App extends Component {
     console.log(name);
     var inputVal = document.getElementById("user-input");
     inputVal.value = name;
-    this.searchAgain(name);
+    this.searchAgain(name, "on_total");
   }
 
   render() {
@@ -219,6 +278,12 @@ class App extends Component {
                 <ul className="dropdown-menu">
                   <li><a href="#" className="item" onClick={this.filter.bind(this, 1)}>highest selections</a></li>
                   <li><a href="#" className="item" onClick={this.filter.bind(this, 2)}>lowest selections</a></li>
+                  <li><a href="#" className="item" onClick={this.filter.bind(this, 3)}>2018</a></li>
+                  <li><a href="#" className="item" onClick={this.filter.bind(this, 4)}>2017</a></li>
+                  <li><a href="#" className="item" onClick={this.filter.bind(this, 5)}>2016</a></li>
+                  <li><a href="#" className="item" onClick={this.filter.bind(this, 6)}>ORG SELECTIONS</a></li>
+                  <li role="separator" class="divider"></li>
+                  <li><a href="#" className="item" onClick={this.filter.bind(this, 7)}>VIEW ALL ORGS</a></li>
                 </ul>
               </div>
             </div>
