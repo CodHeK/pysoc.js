@@ -73,10 +73,10 @@ class App extends Component {
     });
     setTimeout(() => {
       this.setState({ orgs_data: temp, loaded: true, filtered: temp,  map, orgs_data_copy: temp_copy });
-    }, 3000);
+    }, 5000);
     setTimeout(() => {
       $(".main").fadeIn(1000);
-    }, 3500);
+    }, 5500);
   }
 
 
