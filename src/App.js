@@ -6,6 +6,7 @@ import gsoc_logo from './imgs/gsoc.png';
 import OrgCard from './OrgCard';
 import Loader from 'react-loader';
 import Fuse from 'fuse.js';
+import $ from 'jquery';
 
 var Spinner = require('react-spinkit');
 
@@ -45,6 +46,9 @@ class App extends Component {
     setTimeout(() => {
       this.setState({ orgs_data: temp, loaded: true, filtered: temp, });
     }, 2000);
+    setTimeout(() => {
+      $(".main").fadeIn(1000);
+    }, 2500);
   }
 
 
