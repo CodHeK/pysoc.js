@@ -3,7 +3,7 @@ import { DB_CONFIG } from './Config/config';
 import firebase from 'firebase/app';
 import 'firebase/database';
 import gsoc_logo from './imgs/gsoc.png';
-import OrgCard from './OrgCard';
+import OrgCard from './components/OrgCard';
 import Loader from 'react-loader';
 import Fuse from 'fuse.js';
 import $ from 'jquery';
