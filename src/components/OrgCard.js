@@ -1,11 +1,6 @@
 import React, { Component } from 'react';
 
 class OrgCard extends Component {
-  constructor(props) {
-    super(props);
-
-  }
-
   render() {
     let { org } = this.props;
     let techs = org.org_tech_list;

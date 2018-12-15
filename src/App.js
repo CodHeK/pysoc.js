@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { DB_CONFIG } from './Config/config';
 import firebase from 'firebase/app';
 import 'firebase/database';
-import gsoc_logo from './imgs/gsoc.png';
 import OrgCard from './components/OrgCard';
 import Loader from 'react-loader';
 import Fuse from 'fuse.js';
@@ -11,8 +10,8 @@ import $ from 'jquery';
 var Spinner = require('react-spinkit');
 
 class App extends Component {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
     this.app = firebase.initializeApp(DB_CONFIG);
     this.database = this.app.database().ref().child('orgs');
     this.state = {
@@ -122,7 +121,6 @@ class App extends Component {
     var keywords = e.target.value;
     keywords = keywords.split(",");
     var best_match = this.calc_corr(keywords[0]);
-    console.log(best_match);
     let filtered = [];
     if(keywords.length != 0) {
       for(let org of orgs_data) {
@@ -148,7 +146,6 @@ class App extends Component {
       var match = [];
       match.push(best_match[0]);
       match.push(best_match[1]);
-      console.log(match);
     }
     this.setState({ keyword: e.target.value, filtered: filtered, match, })
   }
@@ -198,14 +195,12 @@ class App extends Component {
     if(data == "on_filtered")
       orgs_data = this.state.filtered;
     if(param == "all" && data == "on_total") {
-      console.log(orgs_data);
       this.setState({ filtered: orgs_data });
       return;
     }
     var keywords = param;
     keywords = keywords.split(",");
     var best_match = this.calc_corr(keywords[0]);
-    console.log(best_match);
     let filtered = [];
     if(keywords.length != 0) {
       for(let org of orgs_data) {
@@ -231,13 +226,11 @@ class App extends Component {
       var match = [];
       match.push(best_match[0]);
       match.push(best_match[1]);
-      console.log(match);
     }
     this.setState({ keyword: param, filtered: filtered, match, })
   }
 
   search(name, e) {
-    console.log(name);
     var inputVal = document.getElementById("user-input");
     inputVal.value = name;
     this.searchAgain(name, "on_total");
@@ -246,7 +239,6 @@ class App extends Component {
   render() {
     let { filtered, loaded, keyword, match } = this.state;
     let filtered_orgs;
-    console.log(loaded);
     if(loaded == true) {
         filtered_orgs = filtered.map(org => <OrgCard org={org} />);
     }
