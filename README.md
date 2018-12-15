@@ -1,4 +1,4 @@
-# PYSOC.JS
+![logo](logo.png)
 
 Simple gsoc data scraper, search for any keyword and get data about the orgs that match your search criteria
 
