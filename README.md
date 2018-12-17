@@ -5,6 +5,8 @@ Simple gsoc data scraper, search for any keyword and get data about the orgs tha
 
 Try it out here: [https://pysocjs.herokuapp.com/](https://pysocjs.herokuapp.com/)
 
+Don't forget to upvote on [Product Hunt](https://www.producthunt.com/posts/pysoc-js-an-interactive-gsoc-scrapper-using-reactjs-python) :v:
+
 #
 
 #### Use `FILTERS` to Sort and Analyse the Data, lets you sort data based on the `number of selections`.
